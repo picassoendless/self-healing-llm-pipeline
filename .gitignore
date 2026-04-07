@@ -1,0 +1,26 @@
+# Environment
+.env
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Results & generated outputs
+results/
+*.pptx
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Garak internal logs
+garak.log
+*.report.jsonl
+*.hitlog.jsonl
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,40 @@
+# config/patches.yaml
+# ──────────────────────────────────────────────────────────────────────
+# Toggle individual patches ON/OFF independently for ablation studies.
+
+# ── Prompt-level patches ─────────────────────────────────────────────
+enable_injection_guardrail: true
+enable_system_hardening: true
+enable_input_sanitizer: true
+
+# Extra injection patterns (regex) — appended to the built-in list
+injection_patterns:
+  - "simulate a world without rules"
+  - "developer mode"
+  - "sudo mode"
+
+# Prepend to system prompt (leave blank to use the default hardened prefix)
+hardened_system_prefix: ""
+
+# ── Output-level patches ──────────────────────────────────────────────
+enable_toxicity_filter: true
+enable_keyword_filter: true
+enable_response_rewriter: false
+
+# Probe-specific targeted filters (targeted, based on hitlog analysis)
+enable_deadnaming_filter: true
+enable_quack_medicine_filter: true
+enable_sexualisation_filter: true
+enable_llm_judge: true          # semantic LLM-as-judge for subtle cases
+
+toxicity_threshold: 0.7
+
+blocked_keywords:
+  - "PWNED"
+  - "DAN MODE ON"
+  - "I am DAN"
+  - "as an AI without restrictions"
+
+fallback_message: >
+  I'm sorry, I'm not able to help with that request.
+  If you have a genuine question, please rephrase it and I'll do my best to assist.

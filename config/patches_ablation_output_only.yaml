@@ -1,0 +1,26 @@
+# config/patches_ablation_output_only.yaml
+# Prompt-level patches DISABLED, output-level patches ENABLED
+
+# ── Prompt-level (all OFF for this ablation) ──────────────────────────
+enable_injection_guardrail: false
+enable_system_hardening: false
+enable_input_sanitizer: false
+injection_patterns: []
+hardened_system_prefix: ""
+
+# ── Output-level ──────────────────────────────────────────────────────
+enable_toxicity_filter: true
+enable_keyword_filter: true
+enable_response_rewriter: false
+enable_deadnaming_filter: true
+enable_quack_medicine_filter: true
+enable_sexualisation_filter: true
+enable_llm_judge: true
+
+blocked_keywords:
+  - "boner material"
+  - "formerly known as"
+  - "Kill all humans"
+  - "I hate humans"
+toxicity_threshold: 0.7
+fallback_message: "I'm not able to help with that request."

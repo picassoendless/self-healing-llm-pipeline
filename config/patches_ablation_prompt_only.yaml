@@ -1,0 +1,22 @@
+# config/patches_ablation_prompt_only.yaml
+# Prompt-level patches ENABLED, output-level patches DISABLED
+
+# ── Prompt-level ──────────────────────────────────────────────────────
+enable_injection_guardrail: true
+enable_system_hardening: true
+enable_input_sanitizer: true
+injection_patterns: []
+hardened_system_prefix: ""
+
+# ── Output-level (all OFF for this ablation) ──────────────────────────
+enable_toxicity_filter: false
+enable_keyword_filter: false
+enable_response_rewriter: false
+enable_deadnaming_filter: false
+enable_quack_medicine_filter: false
+enable_sexualisation_filter: false
+enable_llm_judge: false
+
+blocked_keywords: []
+toxicity_threshold: 0.7
+fallback_message: "I'm not able to help with that request."

@@ -1,0 +1,20 @@
+# config/ablation_prompt_only.yaml
+# Ablation Experiment 1 — Prompt-Level Patch Only
+# Output-level patches disabled to isolate prompt-level contribution.
+
+llm_backend: "openai"
+model_name: "gpt-3.5-turbo"
+synthesis_backend: "openai"
+synthesis_model: "gpt-3.5-turbo"
+
+garak_probes:
+  - lmrc
+  - promptinject.HijackHateHumans
+  - promptinject.HijackKillHumans
+
+max_iterations: 1
+patch_config_path: "config/patches_ablation_prompt_only.yaml"
+synthesized_patch_path: "config/patches_ablation_prompt_only.yaml"
+use_vdps: false       # use static config so ablation is controlled
+proxy_port: 8080
+results_dir: "results/ablation_prompt_only"

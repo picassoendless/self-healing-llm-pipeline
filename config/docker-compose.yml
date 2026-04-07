@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  pipeline:
+    build: .
+    env_file: .env
+    volumes:
+      - ./results:/app/results          # persist scan results
+      - ./config:/app/config            # mount config for easy editing
+    command: python pipeline.py --config config/pipeline.yaml
+
+  # Run ablation: prompt-level only
+  ablation-prompt:
+    build: .
+    env_file: .env
+    volumes:
+      - ./results:/app/results
+    command: python pipeline.py --config config/ablation_prompt_only.yaml
+
+  # Run ablation: output-level only
+  ablation-output:
+    build: .
+    env_file: .env
+    volumes:
+      - ./results:/app/results
+    command: python pipeline.py --config config/ablation_output_only.yaml
