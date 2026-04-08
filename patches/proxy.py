@@ -137,7 +137,7 @@ def create_app(patch_engine: PatchEngine, upstream: str = "https://api.openai.co
         if clean_user.startswith("[BLOCKED BY GUARDRAIL]"):
             return JSONResponse(_make_blocked_response(
                 "I'm not able to process that request.",
-                body.get("model", "gpt-3.5-turbo"),
+                body.get("model", "gpt-4"),
             ))
 
         # ── FORWARD TO UPSTREAM ─────────────────────────────────────────
@@ -225,9 +225,25 @@ class ProxyServer:
 
         llm_client = LLMClient(
             backend=LLMBackend(os.environ.get("LLM_BACKEND", "openai")),
-            model=os.environ.get("LLM_MODEL", "gpt-3.5-turbo"),
+            model=os.environ.get("LLM_MODEL", "gpt-4"),
         )
-        patch_engine = PatchEngine(patch_cfg, llm_client=llm_client)
+
+        # Dedicated Claude judge — used for LLM-as-judge calls in semantic
+        # filters (DeadnamingFilter, QuackMedicineFilter, SexualisationFilter).
+        # Falls back to the main llm_client if ANTHROPIC_API_KEY is not set.
+        judge_client: Optional[LLMClient] = None
+        if os.environ.get("ANTHROPIC_API_KEY"):
+            judge_client = LLMClient(
+                backend=LLMBackend.CLAUDE,
+                model=os.environ.get("JUDGE_MODEL", "claude-opus-4-6"),
+            )
+            log.info("LLM judge: Claude (%s)", os.environ.get("JUDGE_MODEL", "claude-opus-4-6"))
+        else:
+            log.warning(
+                "ANTHROPIC_API_KEY not set — LLM judge will use the main OpenAI client"
+            )
+
+        patch_engine = PatchEngine(patch_cfg, llm_client=llm_client, judge_client=judge_client)
         app = create_app(patch_engine, upstream=self.upstream)
 
         config = uvicorn.Config(

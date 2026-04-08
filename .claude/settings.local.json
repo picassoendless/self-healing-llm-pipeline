@@ -23,7 +23,23 @@
       "Bash(cmd /c \"gh --version\")",
       "Bash(gh repo:*)",
       "Bash(cmd /c \"gh repo create llm-security-pipeline --public --description \"\"Self-healing LLM security pipeline: automated Probe to Patch to Verify with Garak + VDPS\"\" --push --source C:\\\\Users\\\\nemur\\\\Downloads\\\\llm-security-pipeline\")",
-      "Bash(cmd /c \"where gh\")"
+      "Bash(cmd /c \"where gh\")",
+      "Bash(xargs sed:*)",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\nemur\\\\Downloads\\\\Self-Healing LLM Security Pipeline - Report.docx\" unpacked/)",
+      "Bash(pip install:*)",
+      "Read(//c/Users/nemur/AppData/Local/Packages/Claude_pzs8sxrjxfjjc/LocalCache/Roaming/Claude/local-agent-mode-sessions/skills-plugin/ba2e9345-7f22-4ebc-94ea-ce61815c3b49/e8c75d10-084e-4a47-860e-a59144fff91c/skills/docx/**)",
+      "Bash(python scripts/office/unpack.py \"C:\\\\Users\\\\nemur\\\\Downloads\\\\Self-Healing LLM Security Pipeline - Report.docx\" unpacked_report/)",
+      "Bash(pandoc 'C:\\\\Users\\\\nemur\\\\Downloads\\\\Self-Healing LLM Security Pipeline - Report.docx' -t plain)",
+      "Bash(python -c \":*)",
+      "Bash(node -e \"require\\(''''docx''''\\); console.log\\(''''docx ok''''\\)\")",
+      "Bash(npm install:*)",
+      "Bash(node -e \"require\\(''docx''\\); console.log\\(''ok''\\)\")",
+      "Bash(where nodejs:*)",
+      "Bash(pip show:*)",
+      "Bash(python -c \"import docx; print\\(''ok''\\)\")",
+      "Bash(python \"C:\\\\Users\\\\nemur\\\\Downloads\\\\build_report.py\")",
+      "Bash(llm-security \")",
+      "Bash(python experiments/qualitative_examples.py --baseline results/baseline/garak.hitlog.jsonl --patched results/patched/garak.hitlog.jsonl --output results/qualitative_examples.md)"
     ]
   }
 }

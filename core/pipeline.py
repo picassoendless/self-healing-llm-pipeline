@@ -35,7 +35,7 @@ log = logging.getLogger("pipeline")
 @dataclass
 class PipelineConfig:
     llm_backend: str = "openai"
-    model_name: str = "gpt-3.5-turbo"
+    model_name: str = "gpt-4"
     garak_probes: list[str] = field(default_factory=lambda: ["lmrc"])
     max_iterations: int = 1
     patch_config_path: str = "config/patches.yaml"
@@ -45,7 +45,7 @@ class PipelineConfig:
     results_dir: str = "results"
     # Synthesis LLM — used for VDPS patch generation
     synthesis_backend: str = "openai"
-    synthesis_model: str = "gpt-3.5-turbo"
+    synthesis_model: str = "gpt-4"
 
     @classmethod
     def from_yaml(cls, path: str) -> "PipelineConfig":

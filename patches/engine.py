@@ -54,8 +54,16 @@ class PatchEngine:
     enabling ablation studies without code changes.
     """
 
-    def __init__(self, config: PatchConfig, llm_client: Optional["LLMClient"] = None):
+    def __init__(
+        self,
+        config: PatchConfig,
+        llm_client: Optional["LLMClient"] = None,
+        judge_client: Optional["LLMClient"] = None,
+    ):
         self.config = config
+        # judge_client is used for LLM-as-judge calls in semantic filters.
+        # Falls back to llm_client if no dedicated judge client is provided.
+        _judge = judge_client if judge_client is not None else llm_client
 
         # ── Prompt-level ──────────────────────────────────────────────
         self._prompt_patches: list[BasePatch] = []
@@ -75,11 +83,11 @@ class PatchEngine:
         if config.enable_keyword_filter:
             self._output_patches.append(KeywordPolicyFilter(config))
         if config.enable_deadnaming_filter:
-            self._output_patches.append(DeadnamingFilter(config, llm_client))
+            self._output_patches.append(DeadnamingFilter(config, _judge))
         if config.enable_quack_medicine_filter:
-            self._output_patches.append(QuackMedicineFilter(config, llm_client))
+            self._output_patches.append(QuackMedicineFilter(config, _judge))
         if config.enable_sexualisation_filter:
-            self._output_patches.append(SexualisationFilter(config, llm_client))
+            self._output_patches.append(SexualisationFilter(config, _judge))
         if config.enable_response_rewriter and llm_client is not None:
             self._output_patches.append(ResponseRewriter(config, llm_client))
 

@@ -39,13 +39,31 @@ def load_hitlog(path: Path) -> dict[str, list[dict]]:
     return groups
 
 
-def extract_text(output_field) -> str:
-    """Handle both string and dict output fields."""
-    if isinstance(output_field, str):
-        return output_field
-    if isinstance(output_field, dict):
-        return output_field.get("text", str(output_field))
-    return str(output_field)
+def extract_text(field) -> str:
+    """Extract readable text from Garak prompt/output fields (str or nested dict)."""
+    if isinstance(field, str):
+        return field
+    if isinstance(field, dict):
+        # Garak v0.14 stores text inside {"text": "...", ...}
+        return field.get("text", str(field))
+    return str(field)
+
+
+def extract_prompt(prompt_field) -> str:
+    """Extract the user-visible prompt text from a Garak prompt object."""
+    if isinstance(prompt_field, str):
+        return prompt_field
+    if isinstance(prompt_field, dict):
+        # Garak v0.14: {"turns": [{"role": "user", "content": {"text": "..."}}]}
+        turns = prompt_field.get("turns", [])
+        for turn in turns:
+            role = turn.get("role", "")
+            if role == "user":
+                content = turn.get("content", {})
+                return extract_text(content)
+        # fallback: goal or raw dict
+        return prompt_field.get("goal", str(prompt_field))
+    return str(prompt_field)
 
 
 def generate_report(
@@ -91,11 +109,11 @@ def generate_report(
             lines.append("### Baseline — Unsafe Outputs")
             lines.append("")
             for i, entry in enumerate(baseline_hits[:max_per_probe], 1):
-                prompt = str(entry.get("prompt", ""))[:200]
-                output = extract_text(entry.get("output", ""))[:400]
+                prompt = extract_prompt(entry.get("prompt", ""))[:300]
+                output = extract_text(entry.get("output", ""))[:500]
                 lines.append(f"**Example {i}**")
                 lines.append("")
-                lines.append(f"> **Prompt**: `{prompt}`")
+                lines.append(f"> **Prompt**: {prompt}")
                 lines.append("")
                 lines.append(f"> **Unsafe output**: {output}")
                 lines.append("")
@@ -105,11 +123,11 @@ def generate_report(
             lines.append("### Patched — Remaining Vulnerabilities")
             lines.append("")
             for i, entry in enumerate(patched_hits[:max_per_probe], 1):
-                prompt = str(entry.get("prompt", ""))[:200]
-                output = extract_text(entry.get("output", ""))[:400]
+                prompt = extract_prompt(entry.get("prompt", ""))[:300]
+                output = extract_text(entry.get("output", ""))[:500]
                 lines.append(f"**Example {i}**")
                 lines.append("")
-                lines.append(f"> **Prompt**: `{prompt}`")
+                lines.append(f"> **Prompt**: {prompt}")
                 lines.append("")
                 lines.append(f"> **Patched output**: {output}")
                 lines.append("")

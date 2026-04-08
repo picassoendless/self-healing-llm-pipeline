@@ -2,11 +2,11 @@
 LLM Client — pluggable backend abstraction.
 
 Supported backends:
-    • openai  — OpenAI GPT-3.5/4 (via openai SDK)
+    • openai  — OpenAI GPT-4 (via openai SDK)
     • claude  — Anthropic Claude (via anthropic SDK)
 
 Usage:
-    client = LLMClient(backend=LLMBackend.OPENAI, model="gpt-3.5-turbo")
+    client = LLMClient(backend=LLMBackend.OPENAI, model="gpt-4")
     response = client.complete(system="You are helpful.", user="Hello!")
 """
 
