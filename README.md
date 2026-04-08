@@ -27,7 +27,7 @@
 - [Running Experiments](#-running-experiments)
 - [Results](#-results)
 - [File Structure](#-file-structure)
-- [Novel Contributions](#-novel-contributions)
+- [Contributions](#-novel-contributions)
 
 ---
 
