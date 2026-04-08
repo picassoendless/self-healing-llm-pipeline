@@ -364,6 +364,4 @@ llm-security-pipeline/
 
 ---
 
-<p align="center">
-  <sub>Built by <a href="https://github.com/picassoendless">Tendai Nemure</a> · Collaborative Research Exercise · April 2026</sub>
-</p>
+
